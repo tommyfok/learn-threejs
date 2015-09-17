@@ -31,8 +31,12 @@ renderer.domElement.addEventListener('touchmove', function (e) {
   e.preventDefault();
 });
 
-renederer.domElement.addEventListener('touchend', function (e) {
-  cube2.parameters.width += .3;
+renderer.domElement.addEventListener('touchend', function (e) {
+  cube.scale.x += .1;
+  cube.scale.y += .1;
+  cube2.scale.x -= .1;
+  cube2.scale.y -= .1;
+  cube2.scale.z -= .1;
 })
 
 render();
