@@ -26,17 +26,22 @@ function render () {
   renderer.render(scene, camera);
 };
 
+var ts, te, old;
+
+renderer.domElement.addEventListener('touchstart', function (e) {
+  ts = e.touches[0].clientY;
+  old = camera.position.z;
+});
+
 renderer.domElement.addEventListener('touchmove', function (e) {
-  var e = e || window.event;
   e.preventDefault();
+  te = e.touches[0].clientY;
+  camera.position.z = old * (1 + (te - ts) / window.innerWidth);
 });
 
 renderer.domElement.addEventListener('touchend', function (e) {
-  cube.scale.x += .1;
-  cube.scale.y += .1;
-  cube2.scale.x -= .1;
-  cube2.scale.y -= .1;
-  cube2.scale.z -= .1;
-})
+  ts = 0;
+  te = 0;
+});
 
 render();
