@@ -26,4 +26,13 @@ function render () {
   renderer.render(scene, camera);
 };
 
+renderer.domElement.addEventListener('touchmove', function (e) {
+  var e = e || window.event;
+  e.preventDefault();
+});
+
+renederer.domElement.addEventListener('touchend', function (e) {
+  cube2.parameters.width += .3;
+})
+
 render();
