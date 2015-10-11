@@ -49,3 +49,10 @@ function resizeCamera () {
 
 window.addEventListener('orientationchange', resizeCamera);
 window.addEventListener('resize', resizeCamera);
+
+document.querySelector('.tips').addEventListener('touchend', addHiddenClass);
+
+function addHiddenClass () {
+  this.className += ' hidden';
+  this.removeEventListener('touchend', addHiddenClass);
+}
