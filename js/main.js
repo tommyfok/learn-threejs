@@ -50,6 +50,10 @@ function resizeCamera () {
 window.addEventListener('orientationchange', resizeCamera);
 window.addEventListener('resize', resizeCamera);
 
+document.querySelector('.header').addEventListener('touchend', function () {
+  location.href = 'http://www.fsyishun.com';
+});
+
 document.querySelector('.tips').addEventListener('touchend', addHiddenClass);
 
 function addHiddenClass () {
