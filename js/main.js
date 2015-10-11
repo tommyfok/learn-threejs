@@ -4,8 +4,10 @@ var controls  = new THREE.OrbitControls(camera)
 
 var renderer = new THREE.WebGLRenderer();
 renderer.setClearColor(0xEEEEEE);
-renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setSize(window.innerWidth*2, window.innerHeight*2);
 renderer.shadowEnabled = true;
+renderer.domElement.style.width = '100%';
+renderer.domElement.style.height = '100%';
 document.body.appendChild(renderer.domElement);
 
 var loader = new THREE.JSONLoader();
@@ -43,7 +45,7 @@ render();
 
 function resizeCamera () {
   camera.aspect = window.innerWidth / window.innerHeight;
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setSize(window.innerWidth * 2, window.innerHeight * 2);
 }
 
 window.addEventListener('orientationchange', resizeCamera);
