@@ -6,10 +6,12 @@ var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-var geometry  = new THREE.TorusKnotGeometry(0.5-0.12, 0.12);
-var material  = new THREE.MeshNormalMaterial(); 
-var mesh  = new THREE.Mesh( geometry, material );
-scene.add(mesh);
+var loader = new THREE.JSONLoader();
+
+loader.load('models/chair.json', function (geo, mat) {
+  var mesh = new THREE.Mesh(geo, mat[0]);
+  scene.add(mesh);
+});
 
 camera.position.x = 1.5;
 camera.position.y = 1.5;
