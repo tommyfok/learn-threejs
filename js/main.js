@@ -11,9 +11,9 @@ var material  = new THREE.MeshNormalMaterial();
 var mesh  = new THREE.Mesh( geometry, material );
 scene.add(mesh);
 
-camera.position.x = 1;
-camera.position.y = 1;
-camera.position.z = 1;
+camera.position.x = 1.5;
+camera.position.y = 1.5;
+camera.position.z = 1.5;
 camera.lookAt({
   x: 0,
   y: 0,
