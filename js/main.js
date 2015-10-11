@@ -3,24 +3,36 @@ var camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHei
 var controls  = new THREE.OrbitControls(camera)
 
 var renderer = new THREE.WebGLRenderer();
+renderer.setClearColor(0xEEEEEE);
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.shadowEnabled = true;
 document.body.appendChild(renderer.domElement);
 
 var loader = new THREE.JSONLoader();
 
 loader.load('models/chair.json', function (geo, mat) {
+  var mat2 = new THREE.MeshLambertMaterial({color: 0xAAAAAA});
   var mesh = new THREE.Mesh(geo, mat[0]);
   scene.add(mesh);
 });
 
-camera.position.x = 1.5;
-camera.position.y = 1.5;
-camera.position.z = 1.5;
+camera.position.x = 2;
+camera.position.y = 3;
+camera.position.z = 2;
 camera.lookAt({
   x: 0,
-  y: 0,
+  y: 1,
   z: 0
-})
+});
+// auto fit the camera
+controls['center'].y = 1;
+console.log(controls);
+
+var ambientLight = new THREE.AmbientLight('#ffffff');
+var pointLight1 = new THREE.PointLight(0xFFFFFF);
+pointLight1.position.set(-50, 50, 50);
+scene.add(pointLight1);
+scene.add(ambientLight);
 
 function render () {
   requestAnimationFrame(render);
