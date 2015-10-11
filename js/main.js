@@ -3,7 +3,7 @@ var camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHei
 var controls  = new THREE.OrbitControls(camera)
 
 var renderer = new THREE.WebGLRenderer();
-renderer.setClearColor(0xEEEEEE);
+renderer.setClearColor(0xDDDDDD);
 renderer.setSize(window.innerWidth*2, window.innerHeight*2);
 renderer.shadowEnabled = true;
 renderer.domElement.style.width = '100%';
@@ -50,13 +50,16 @@ function resizeCamera () {
 window.addEventListener('orientationchange', resizeCamera);
 window.addEventListener('resize', resizeCamera);
 
-document.querySelector('.header').addEventListener('touchend', function () {
-  location.href = 'http://www.fsyishun.com';
-});
+var clickEvtName = 'ontouchend' in document.body ? 'touchend' : 'click';
 
-document.querySelector('.tips').addEventListener('touchend', addHiddenClass);
+document.querySelector('.header').addEventListener(clickEvtName, toggleTips);
+document.querySelector('.tips').addEventListener(clickEvtName, toggleTips);
 
-function addHiddenClass () {
-  this.className += ' hidden';
-  this.removeEventListener('touchend', addHiddenClass);
+function toggleTips () {
+  var item = document.querySelector('.tips');
+  if (item.className.indexOf('hidden') > -1) {
+    item.className = 'tips';
+  } else {
+    item.className = 'tips hidden';
+  }
 }
