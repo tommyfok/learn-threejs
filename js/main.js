@@ -1,47 +1,36 @@
 var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+var camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 10000);
+var controls  = new THREE.OrbitControls(camera)
+
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-var geometry = new THREE.BoxGeometry(1, 2, 3);
-var geometry2 = new THREE.BoxGeometry(3, 2, 4);
-var material = new THREE.MeshBasicMaterial({color: 0xff6600});
-var material2 = new THREE.MeshBasicMaterial({color: 0xff0066});
-var cube = new THREE.Mesh(geometry, material);
-var cube2 = new THREE.Mesh(geometry2, material2);
+var geometry  = new THREE.TorusKnotGeometry(0.5-0.12, 0.12);
+var material  = new THREE.MeshNormalMaterial(); 
+var mesh  = new THREE.Mesh( geometry, material );
+scene.add(mesh);
 
-scene.add(cube);
-scene.add(cube2);
-
-camera.position.z = 5;
+camera.position.x = 1;
+camera.position.y = 1;
+camera.position.z = 1;
+camera.lookAt({
+  x: 0,
+  y: 0,
+  z: 0
+})
 
 function render () {
   requestAnimationFrame(render);
-  cube.rotation.x += 0.1;
-  cube.rotation.y += 0.1;
-  cube2.rotation.x += 0.05;
-  cube2.rotation.y += 0.03;
-  cube2.rotation.z += 0.03;
   renderer.render(scene, camera);
 };
 
-var ts, te, old;
-
-renderer.domElement.addEventListener('touchstart', function (e) {
-  ts = e.touches[0].clientY;
-  old = camera.position.z;
-});
-
-renderer.domElement.addEventListener('touchmove', function (e) {
-  e.preventDefault();
-  te = e.touches[0].clientY;
-  camera.position.z = old * (1 + (te - ts) / window.innerWidth);
-});
-
-renderer.domElement.addEventListener('touchend', function (e) {
-  ts = 0;
-  te = 0;
-});
-
 render();
+
+function resizeCamera () {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+window.addEventListener('orientationchange', resizeCamera);
+window.addEventListener('resize', resizeCamera);
