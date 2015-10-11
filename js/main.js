@@ -28,7 +28,6 @@ camera.lookAt({
 });
 // auto fit the camera
 controls['center'].y = 1;
-console.log(controls);
 
 var ambientLight = new THREE.AmbientLight('#ffffff');
 var pointLight1 = new THREE.PointLight(0xFFFFFF);
