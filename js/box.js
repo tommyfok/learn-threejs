@@ -1,6 +1,6 @@
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 10000);
-// var controls  = new THREE.OrbitControls(camera)
+var controls  = new THREE.OrbitControls(camera);
 
 var renderer = new THREE.WebGLRenderer();
 renderer.setClearColor(0xDDDDDD);
@@ -20,12 +20,16 @@ camera.lookAt({
 });
 
 // 添加灯光
-var ambientLight = new THREE.AmbientLight('#ffffff');
+// var ambientLight = new THREE.AmbientLight('#ffffff');
 var pointLight1 = new THREE.SpotLight(0xFFFFFF);
 pointLight1.position.set(-50, 50, 50);
 pointLight1.castShadow = true;
 scene.add(pointLight1);
-scene.add(ambientLight);
+// scene.add(ambientLight);
+var hemiLight = new THREE.HemisphereLight('#fff', '#666', 1);
+hemiLight.position.set(100, 500, 0);
+// hemiLight.castShadow = true;
+scene.add(hemiLight);
 
 // 添加一个几何体
 var cubeGeo = new THREE.CubeGeometry(10, 10, 10);
