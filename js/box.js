@@ -3,18 +3,17 @@ var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 10000);
 var controls  = new THREE.OrbitControls(camera);
 
-
 var renderer = new THREE.WebGLRenderer();
-renderer.setClearColor(0xDDDDDD);
+renderer.setClearColor(0x333);
 renderer.setSize(window.innerWidth*2, window.innerHeight*2);
 renderer.shadowMap.enabled = true;
 renderer.domElement.style.width = '100%';
 renderer.domElement.style.height = '100%';
 document.body.appendChild(renderer.domElement);
 
-camera.position.x = 20;
-camera.position.y = 30;
-camera.position.z = 20;
+camera.position.x = 600;
+camera.position.y = 600;
+camera.position.z = 800;
 camera.lookAt({
   x: 0,
   y: 0,
@@ -22,11 +21,32 @@ camera.lookAt({
 });
 
 // 添加灯光
-var spotLight = new THREE.SpotLight(0xFFFFFF);
-spotLight.position.set(-50, 50, 50);
+var spotLight = new THREE.SpotLight('#fff');
+spotLight.position.set(-500, 350, 500);
 spotLight.castShadow = true;
-spotLight.intensity = 4;
+spotLight.intensity = 1;
 scene.add(spotLight);
+
+var spotLight2 = new THREE.SpotLight('#fff');
+spotLight2.position.set(600, 200, -500);
+spotLight2.castShadow = true;
+spotLight2.intensity = 1;
+scene.add(spotLight2);
+
+var abLight = new THREE.AmbientLight('#fff');
+scene.add(abLight);
+
+// BevelBox
+var bbGeo = THREE.BevelBox({
+  width: 400,
+  height: 200,
+  depth: 20,
+  bevelSize: 1
+});
+bbGeo.castShadow = true;
+bbGeo.receiveShadow = true;
+var bbMesh = new THREE.Mesh(bbGeo, new THREE.MeshPhongMaterial({color: '#666'}));
+scene.add(bbMesh);
 
 var sceneHandler = {
   // 添加一个几何体
@@ -47,20 +67,31 @@ var sceneHandler = {
       elem.receiveShadow = true;
     });
     scene.add(cube);
-  }
+  },
+  boxWidth: 400
 };
+
+var boxWidth = 400;
+Object.defineProperty(sceneHandler, 'boxWidth', {
+  set: function (value) {
+    bbGeo = THREE.BevelBox({
+      width: value,
+      height: 200,
+      depth: 20,
+      bevelSize: 1,
+      bevelSegments: 10
+    });
+    bbMesh.geometry = bbGeo;
+    boxWidth = value;
+  },
+  get: function () {
+    return boxWidth;
+  }
+});
 
 var gui = new dat.GUI();
 gui.add(sceneHandler, 'addCube');
-
-// 创建一个地面
-var planeSize = 100;
-var planeGeo = new THREE.PlaneGeometry(planeSize,planeSize,planeSize,planeSize);
-var planeMat = new THREE.MeshLambertMaterial({color: '#666'});
-var plane = new THREE.Mesh(planeGeo, planeMat);
-plane.rotation.x = -.5*Math.PI;
-plane.receiveShadow = true;
-scene.add(plane);
+gui.add(sceneHandler, 'boxWidth', 100, 500).step(50);
 
 // 循环渲染场景函数
 function render () {

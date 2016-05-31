@@ -6,14 +6,28 @@ THREE.BevelBox = function (options) {
     var depth = options.depth;
     var bevelSize = options.bevelSize || 0;
     var bevelEnabled = bevelSize > 0;
-    var segments = options.segments || 1;
-    var bevelSegments = options.bevelSegments || 1;
+    var segments = options.segments || 10;
+    var bevelSegments = options.bevelSegments || 10;
 
     var bbShape = new THREE.Shape();
-    bbShape.moveTo(width/2-bevelSize,height/2-bevelSize);
-    bbShape.arc(,-bevelSize,bevelSize,1.5*Math.PI,0);
-    bbShape.moveTo()
-    bbShape.lineTo(width/2,-height/2);
-    bbShape.arc(-bevelSize,bevelSize,bevelSize,0,.5*Math.PI);
-    bbShape.lineTo(-width/2,-height/2);
+    bbShape.absarc(width/2-bevelSize,height/2-bevelSize,bevelSize,0,.5*PI,true);
+    bbShape.lineTo(-width/2+bevelSize,height/2);
+    bbShape.absarc(-width/2+bevelSize,height/2-bevelSize,bevelSize,.5*PI,PI,true);
+    bbShape.lineTo(-width/2,-height/2+bevelSize);
+    bbShape.absarc(-width/2+bevelSize,-height/2+bevelSize,bevelSize,PI,1.5*PI,true);
+    bbShape.lineTo(width/2-bevelSize,-height/2);
+    bbShape.absarc(width/2-bevelSize,-height/2+bevelSize,bevelSize,1.5*PI,2*PI,true);
+    bbShape.lineTo(width/2,height/2-bevelSize);
+
+    var configs = {
+        curveSegments: bevelSegments,
+        steps: segments,
+        amount: depth,
+        bevelEnabled: bevelEnabled,
+        bevelSize: bevelSize,
+        bevelSegments: bevelSegments,
+        bevelThickness: bevelSize
+    };
+
+    return new THREE.ExtrudeGeometry([bbShape], configs);
 };

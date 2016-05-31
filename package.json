@@ -1,0 +1,22 @@
+{
+  "name": "learn-threejs",
+  "version": "1.0.0",
+  "description": "see [DEMO](http://tommyfok.github.io/learn-threejs)",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tommyfok/learn-threejs.git"
+  },
+  "author": "tommyfok",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tommyfok/learn-threejs/issues"
+  },
+  "homepage": "https://github.com/tommyfok/learn-threejs#readme",
+  "dependencies": {
+    "three": "^0.77.1"
+  }
+}
